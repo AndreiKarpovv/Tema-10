@@ -1,0 +1,499 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Museum API",
+      "description": "API for managing museum exhibits, virtual tours, users, and authentication"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "securityDefinitions": {
+      "JWT": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "tags": [
+      {
+        "name": "User",
+        "description": "Operations related to users"
+      },
+      {
+        "name": "Exhibit",
+        "description": "Operations related to exhibits"
+      },
+      {
+        "name": "Virtual Tour",
+        "description": "Operations related to virtual tours"
+      }
+    ],
+    "paths": {
+      "/auth/register": {
+        "post": {
+          "tags": ["User"],
+          "description": "Register a new user",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserRegistration"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered successfully"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "tags": ["User"],
+          "description": "User login",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User logged in successfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "tags": ["User"],
+          "summary": "Get all users",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of all users"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "tags": ["User"],
+          "summary": "Get user by ID",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User found"
+            },
+            "404": {
+              "description": "User not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "put": {
+          "tags": ["User"],
+          "summary": "Update user by ID",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserUpdate"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User updated successfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "User not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["User"],
+          "summary": "Delete user by ID",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted successfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "User not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/exhibit": {
+        "post": {
+          "tags": ["Exhibit"],
+          "summary": "Create a new exhibit",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Exhibit"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Exhibit created successfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Exhibit"],
+          "summary": "Get all exhibits",
+          "responses": {
+            "200": {
+              "description": "List of all exhibits"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/exhibit/{id}": {
+        "get": {
+          "tags": ["Exhibit"],
+          "summary": "Get exhibit by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Exhibit found"
+            },
+            "404": {
+              "description": "Exhibit not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Exhibit"],
+          "summary": "Update exhibit by ID",
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Exhibit"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Exhibit updated successfully"
+            },
+            "401": {
+                "description": "Unauthorized"
+              },
+              "404": {
+                "description": "Exhibit not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          },
+          "delete": {
+            "tags": ["Exhibit"],
+            "summary": "Delete exhibit by ID",
+            "security": [
+              {
+                "JWT": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Exhibit deleted successfully"
+              },
+              "401": {
+                "description": "Unauthorized"
+              },
+              "404": {
+                "description": "Exhibit not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          }
+        },
+        "/virtual-tours": {
+          "get": {
+            "tags": ["Virtual Tour"],
+            "summary": "Get all virtual tours",
+            "responses": {
+              "200": {
+                "description": "List of all virtual tours"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          }
+        },
+        "/virtual-tours/{id}": {
+          "get": {
+            "tags": ["Virtual Tour"],
+            "summary": "Get virtual tour by ID",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Virtual tour found"
+              },
+              "404": {
+                "description": "Virtual tour not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          }
+        },
+        "/virtual-tours/title/{title}": {
+          "get": {
+            "tags": ["Virtual Tour"],
+            "summary": "Get virtual tour by title",
+            "parameters": [
+              {
+                "name": "title",
+                "in": "path",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Virtual tour found"
+              },
+              "404": {
+                "description": "Virtual tour not found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+          }
+        }
+      },
+      "definitions": {
+        "UserRegistration": {
+          "type": "object",
+          "properties": {
+            "nickname": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "birthDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "phoneNumber": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": ["nickname", "firstName", "lastName", "birthDate", "email", "phoneNumber", "password"]
+        },
+        "UserLogin": {
+          "type": "object",
+          "properties": {
+            "identifier": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": ["identifier", "password"]
+        },
+        "UserUpdate": {
+          "type": "object",
+          "properties": {
+            "nickname": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "birthDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "phoneNumber": {
+              "type": "string"
+            }
+          }
+        },
+        "Exhibit": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "yearCreated": {
+              "type": "integer"
+            }
+          },
+          "required": ["name", "description", "category", "yearCreated"]
+        }
+      }
+    }
+    
+  

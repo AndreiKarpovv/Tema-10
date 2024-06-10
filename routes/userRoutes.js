@@ -10,4 +10,6 @@ router.get('/search', authMiddleware, userController.searchUsers);
 router.put('/:id', authMiddleware, userController.updateUser); 
 router.put('/:id/password', authMiddleware, userController.updateUserPassword);
 
+router.delete('/:id, authMiddleware, userController.deleteUser);
+
 module.exports = router;

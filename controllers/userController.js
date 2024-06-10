@@ -108,3 +108,27 @@ exports.updateUserPassword = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Находим пользователя по ID
+    const user = await User.findByPk(id);
+
+    // Проверяем, найден ли пользователь
+    if (!user) {
+      return res.status(404).send('Пользователь не найден');
+    }
+
+    // Удаляем пользователя
+    await user.destroy();
+
+    // Возвращаем успешный ответ
+    res.status(200).send('Пользователь успешно удален');
+  } catch (error) {
+    // Возвращаем ошибку в случае неудачи
+    console.error(error);
+    res.status(500).send('Ошибка сервера при удалении пользователя');
+  }
+};
